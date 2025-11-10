@@ -132,11 +132,11 @@ def main_multi(autorun: bool) -> tuple:
         time.sleep(random.randint(3, 10))
     print("")
     push_message = f'脚本执行完毕，共执行{len(config_list)}个配置文件，成功{len(results["ok"])}个\n'
-    if result['close']:
+    if results['close']:
         push_message += f'未执行{len(results["close"])}个，分别为{results["close"]}\n'
-    if result['error']:
+    if results['error']:
         push_message += f'执行错误{len(results["error"])}个，分别为{results["error"]}\n'
-    if result['captcha']:
+    if results['captcha']:
         push_message += f'触发验证码{len(results["captcha"])}个，分别为{results["captcha"]}\n'
     push_message += '\n',all_messages
     log.info(push_message)
