@@ -135,7 +135,7 @@ def main_multi(autorun: bool) -> tuple:
     if result['close']:
         push_message += f'未执行{len(results["close"])}个，分别为{results["close"]}\n'
     if result['error']:
-        push_message += f'执行错误{len(results["error"])}个，分别为{results["error"]\n}'
+        push_message += f'执行错误{len(results["error"])}个，分别为{results["error"]}\n'
     if result['captcha']:
         push_message += f'触发验证码{len(results["captcha"])}个，分别为{results["captcha"]}\n'
     push_message += '\n',all_messages
