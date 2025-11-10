@@ -101,6 +101,7 @@ def main_multi(autorun: bool) -> tuple:
         except KeyboardInterrupt:
             exit(0)
     results = {"ok": [], "close": [], "error": [], "captcha": []}
+    all_messages = []
     for i in config_list:
         log.info(f"正在执行 {i}")
         config.config_Path = os.path.join(config.path, i)
@@ -110,6 +111,7 @@ def main_multi(autorun: bool) -> tuple:
             results["error"].append(i)
             if config.config.get("push", "") != "":
                 push_handler = push.PushHandler(config.config["push"])
+                all_message.append(f"账号 {i} Cookie/Stoken 出错")
                 error_msg = "账号 Cookie 出错！" if isinstance(e, CookieError) else "账号 Stoken 有问题！"
                 push_handler.push(1, error_msg)
         else:
@@ -124,14 +126,19 @@ def main_multi(autorun: bool) -> tuple:
             else:
                 # 其他未知状态归类为未执行
                 results["close"].append(i)
+        all_messages.append(f"配置文件 {i}:\n\n{run_message.strip()}\n")
         log.info(f"{i} 执行完毕")
         
         time.sleep(random.randint(3, 10))
     print("")
-    push_message = f'脚本执行完毕，共执行{len(config_list)}个配置文件，成功{len(results["ok"])}个，' \
-                   f'没执行{len(results["close"])}个，失败{len(results["error"])}个' \
-                   f'\r\n没执行的配置文件：{results["close"]}\r\n执行失败的配置文件：{results["error"]}\r\n' \
-                   f'触发游戏签到验证码的配置文件：{results["captcha"]}'
+    push_message = f'脚本执行完毕，共执行{len(config_list)}个配置文件，成功{len(results["ok"])}个\n'
+    if result['close']:
+        push_message += f'未执行{len(results["close"])}个，分别为{results["close"]}\n'
+    if result['error']:
+        push_message += f'执行错误{len(results["error"])}个，分别为{results["error"]\n}'
+    if result['captcha']:
+        push_message += f'触发验证码{len(results["captcha"])}个，分别为{results["captcha"]}\n'
+    push_message += '\n',all_messages
     log.info(push_message)
     # 更清晰的状态码逻辑
     status = 0  # 默认成功
