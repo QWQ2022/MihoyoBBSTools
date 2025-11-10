@@ -138,7 +138,7 @@ def main_multi(autorun: bool) -> tuple:
         push_message += f'执行错误{len(results["error"])}个，分别为{results["error"]}\n'
     if results['captcha']:
         push_message += f'触发验证码{len(results["captcha"])}个，分别为{results["captcha"]}\n'
-    push_message += '\n',all_messages
+    push_message += '\n' + '\n'.join(all_messages)
     log.info(push_message)
     # 更清晰的状态码逻辑
     status = 0  # 默认成功
