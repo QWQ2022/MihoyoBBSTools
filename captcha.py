@@ -1,4 +1,4 @@
-…import time
+import time
 from request import http
 from loghelper import log
 
