@@ -64,17 +64,25 @@ def bbs_captcha(gt: str, challenge: str) -> dict:
     return captcha(gt, challenge)
 
 
-if __name__ == '__main__':
+def get_points:
     try:
         response = http.get(f"http://api.ttocr.com/api/points?appkey={appkey}")
         result = response.json()
         
         if result.get('status') == 1:
             points = result.get('points', '0')
-            log.info(f"当前积分: {points}")
+            return int(points)
         else:
             msg = result.get('msg', '未知错误')
             log.error(f"查询失败: {msg}")
+            return msg
             
     except Exception as e:
         log.error(f"请求异常: {str(e)}")
+        return e
+
+
+if __name__ == "__main__":
+    points = get_points()
+    if isinstance(points, int):
+        log.info(f"当前剩余点数：{points}")
