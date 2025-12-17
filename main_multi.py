@@ -5,6 +5,7 @@ import time
 import push
 import config
 import random
+import captcha
 from loghelper import log
 from error import CookieError, StokenError
 
@@ -139,6 +140,14 @@ def main_multi(autorun: bool) -> tuple:
     if results['captcha']:
         push_message += f'触发验证码{len(results["captcha"])}个，分别为{results["captcha"]}\n'
     push_message += '\n' + '\n'.join(all_messages)
+    status_points, result_points = captcha.get_points()
+        if status_points == 0:
+            log.info(f"ttocr剩余点数：{result_points}")
+            push_message += f"ttocr剩余点数：{result_points}"
+        elif status_points == 1:
+            push_message += f"ttocr点数查询失败：{result_points}"
+        elif status_points == 2:
+            push_message += f"ttocr点数请求异常：{str(e)}"
     log.info(push_message)
     # 更清晰的状态码逻辑
     status = 0  # 默认成功
