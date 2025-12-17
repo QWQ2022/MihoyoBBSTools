@@ -1,4 +1,4 @@
-import time
+…import time
 from request import http
 from loghelper import log
 
@@ -71,18 +71,18 @@ def get_points():
         
         if result.get('status') == 1:
             points = result.get('points', '0')
-            return int(points)
+            return 0,int(points)
         else:
             msg = result.get('msg', '未知错误')
             log.error(f"查询失败: {msg}")
-            return msg
+            return 1,msg
             
     except Exception as e:
         log.error(f"请求异常: {str(e)}")
-        return e
+        return 2,e
 
 
 if __name__ == "__main__":
-    points = get_points()
+    points = get_points()[0]
     if isinstance(points, int):
         log.info(f"当前剩余点数：{points}")
