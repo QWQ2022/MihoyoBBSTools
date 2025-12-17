@@ -83,6 +83,6 @@ def get_points():
 
 
 if __name__ == "__main__":
-    points = get_points()[0]
-    if isinstance(points, int):
+    status,points = get_points()
+    if status == 0:
         log.info(f"当前剩余点数：{points}")
