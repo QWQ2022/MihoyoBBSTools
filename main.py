@@ -14,6 +14,7 @@ import gamecheckin
 import hoyo_checkin
 import web_activity
 import os_cloudgames
+import captcha
 from loghelper import log
 from error import CookieError, StokenError
 
@@ -146,6 +147,14 @@ def task_run() -> None:
     try:
         status_code, message = main()
         push_message = message
+        status_points, result_points = captcha.get_points()
+        if status_points == 0:
+            log.info(f"ttocr剩余点数：{result_points}")
+            push_message += f"ttocr剩余点数：{result_points}"
+        elif status_points == 1:
+            push_message += f"ttocr点数查询失败：{result_points}"
+        elif status_points == 2:
+            push_message += f"ttocr点数请求异常：{str(e)}"
     except CookieError:
         status_code = StatusCode.FAILURE.value
         push_message = f"账号 Cookie 出错！\n{message}"
