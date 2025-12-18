@@ -96,6 +96,8 @@ def bbs_captcha(gt: str, challenge: str) -> dict:
 
 
 def get_points():
+    if not get_ttocr_key():
+        return 3
     try:
         response = http.get(f"http://api.ttocr.com/api/points?appkey={get_ttocr_key()}")
         result = response.json()
