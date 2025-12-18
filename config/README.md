@@ -98,3 +98,5 @@ token=XXX
 ## captcha.ini配置
 
 前往[ttocr](https://www.ttocr.com/index/login.html)获取appkey填入captcha_key
+
+亦可通过配置环境变量`ttocr_enable`和`ttocr_key`实现
