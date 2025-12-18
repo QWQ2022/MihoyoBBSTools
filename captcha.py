@@ -5,8 +5,6 @@ import os
 import configparser
 from pathlib import Path
 
-
-appkey = "前往 ttocr.com 获取 api 填入"
 def get_ttocr_key():
     env_enable = os.getenv("ttocr_enable")
     env_key = os.getenv("ttocr_key")
@@ -17,13 +15,27 @@ def get_ttocr_key():
         return None
     elif env_enable and env_enable.lower() == "false":
         return None
+    config_path = Path(__file__).parent / 'config' / 'captcha.ini'
+    if not config_path.exists():
+        return None
+    
+    cfg = configparser.ConfigParser()
+    cfg.read(config_path, encoding='utf-8')
+    if cfg.has_section('ttocr') and cfg.get('ttocr', 'enable', fallback='false').lower() == 'true':
+        key = cfg.get('ttocr', 'captcha_key', fallback='')
+        if key and not key == '':
+            return key
+        else:
+            log.warn("未配置key")
+    return None
+    
     
 def captcha(gt: str, challenge: str):
     try:
         rep = http.post(
             url= "http://api.ttocr.com/api/recognize",
             data={
-                "appkey": appkey,
+                "appkey": get_ttocr_key(),
                 "gt": gt,
                 "challenge" : challenge,
                 "referer" : "https://api-takumi.mihoyo.com/event/luna/sign",
@@ -40,7 +52,7 @@ def captcha(gt: str, challenge: str):
                 rep2 = http.post(
                     url="http://api.ttocr.com/api/results",
                     data={
-                        "appkey": appkey,
+                        "appkey": get_ttocr_key(),
                         "resultid": str(rep["resultid"]),
                     },
                     timeout=(60, 60)  # 设置连接超时和读取超时均为60秒
@@ -80,7 +92,7 @@ def bbs_captcha(gt: str, challenge: str) -> dict:
 
 def get_points():
     try:
-        response = http.get(f"http://api.ttocr.com/api/points?appkey={appkey}")
+        response = http.get(f"http://api.ttocr.com/api/points?appkey={get_ttocr_key()}")
         result = response.json()
         
         if result.get('status') == 1:
