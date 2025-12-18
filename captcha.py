@@ -31,11 +31,16 @@ def get_ttocr_key():
     
     
 def captcha(gt: str, challenge: str):
+    appkey = get_ttocr_key
+    if not appkey:
+        return None
+
+    
     try:
         rep = http.post(
             url= "http://api.ttocr.com/api/recognize",
             data={
-                "appkey": get_ttocr_key(),
+                "appkey": appkey,
                 "gt": gt,
                 "challenge" : challenge,
                 "referer" : "https://api-takumi.mihoyo.com/event/luna/sign",
@@ -52,7 +57,7 @@ def captcha(gt: str, challenge: str):
                 rep2 = http.post(
                     url="http://api.ttocr.com/api/results",
                     data={
-                        "appkey": get_ttocr_key(),
+                        "appkey": appkey,
                         "resultid": str(rep["resultid"]),
                     },
                     timeout=(60, 60)  # 设置连接超时和读取超时均为60秒
