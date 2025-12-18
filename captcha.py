@@ -26,7 +26,7 @@ def get_ttocr_key():
         if key and not key == '':
             return key
         else:
-            log.warn("未配置key")
+            log.warning("未配置key")
     return None
     
     
@@ -96,10 +96,11 @@ def bbs_captcha(gt: str, challenge: str) -> dict:
 
 
 def get_points():
-    if not get_ttocr_key():
+    appkey = get_ttocr_key()
+    if not appkey:
         return 3, ""
     try:
-        response = http.get(f"http://api.ttocr.com/api/points?appkey={get_ttocr_key()}")
+        response = http.get(f"http://api.ttocr.com/api/points?appkey={appkey}")
         result = response.json()
         
         if result.get('status') == 1:
