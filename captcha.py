@@ -31,7 +31,7 @@ def get_ttocr_key():
     
     
 def captcha(gt: str, challenge: str):
-    appkey = get_ttocr_key
+    appkey = get_ttocr_key()
     if not appkey:
         return None
 
