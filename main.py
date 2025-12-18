@@ -154,7 +154,7 @@ def task_run() -> None:
         elif status_points == 1:
             push_message += f"ttocr点数查询失败：{result_points}"
         elif status_points == 2:
-            push_message += f"ttocr点数请求异常：{str(e)}"
+            push_message += f"ttocr点数请求异常：{str(result_points)}"
     except CookieError:
         status_code = StatusCode.FAILURE.value
         push_message = f"账号 Cookie 出错！\n{message}"
