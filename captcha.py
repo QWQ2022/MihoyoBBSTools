@@ -97,22 +97,22 @@ def bbs_captcha(gt: str, challenge: str) -> dict:
 
 def get_points():
     if not get_ttocr_key():
-        return 3
+        return 3, ""
     try:
         response = http.get(f"http://api.ttocr.com/api/points?appkey={get_ttocr_key()}")
         result = response.json()
         
         if result.get('status') == 1:
             points = result.get('points', '0')
-            return 0,int(points)
+            return 0, int(points)
         else:
             msg = result.get('msg', '未知错误')
             log.error(f"查询失败: {msg}")
-            return 1,msg
+            return 1, msg
             
     except Exception as e:
         log.error(f"请求异常: {str(e)}")
-        return 2,e
+        return 2, e
 
 
 if __name__ == "__main__":
