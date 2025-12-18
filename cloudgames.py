@@ -63,7 +63,7 @@ class CloudGameBase:
 
 class CloudGenshin(CloudGameBase):
     def __init__(self, token) -> None:
-        super().__init__("云原神", setting.cloud_genshin_sgin, "米云币", config.clear_cookie_cloudgame_genshin)
+        super().__init__("云原神", setting.cloud_genshin_sgin, "原点", config.clear_cookie_cloudgame_genshin)
         self.headers = {
             'Host': 'api-cloudgame.mihoyo.com',
             'Accept': '*/*',
