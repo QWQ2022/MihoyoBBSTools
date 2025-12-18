@@ -94,3 +94,7 @@ push_server=bark
 api_url=https://api.day.app
 token=XXX
 ```
+
+## captcha.ini配置
+
+前往[ttocr](https://www.ttocr.com/index/login.html)获取appkey填入captcha_key
