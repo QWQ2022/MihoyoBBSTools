@@ -1,9 +1,23 @@
 import time
 from request import http
 from loghelper import log
+import os
+import configparser
+from pathlib import Path
+
 
 appkey = "前往 ttocr.com 获取 api 填入"
-
+def get_ttocr_key():
+    env_enable = os.getenv("ttocr_enable")
+    env_key = os.getenv("ttocr_key")
+    if env_enable and env_enable.lower() == "true" and env_key:
+        return env_key
+    elif env_enable and env_enable.lower() == "true":
+        log.error("环境变量未配置key")
+        return None
+    elif env_enable and env_enable.lower() == "false":
+        return None
+    
 def captcha(gt: str, challenge: str):
     try:
         rep = http.post(
