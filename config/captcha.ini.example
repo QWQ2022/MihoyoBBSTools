@@ -1,4 +1,3 @@
 [ttocr]
-#前往ttocr.com获取appkey填入captcha_key
 enable=false
 captcha_key=
