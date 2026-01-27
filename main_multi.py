@@ -147,7 +147,7 @@ def main_multi(autorun: bool) -> tuple:
     elif status_points == 1:
         push_message += f"\nttocr点数查询失败：{result_points}"
     elif status_points == 2:
-        push_message += f"\nttocr点数请求异常：{str(result_points)}"
+        push_message += f"\nttocr点数请求异常：{str(e)}"
     log.info(push_message)
     # 更清晰的状态码逻辑
     status = 0  # 默认成功
