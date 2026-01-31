@@ -377,7 +377,7 @@ class PushHandler:
         qmsg
         """
         rep = self.http.post(
-            url=f'https://qmsg.zendee.cn/send/{self.cfg.get("qmsg", "key")}',
+            url=f'https://qmsg.zendee.cn/group/{self.cfg.get("qmsg", "key")}',
             headers={"Content-Type": "application/x-www-form-urlencoded"},
             data={
                 "msg": get_push_title(status_id) + "\n" + push_message
