@@ -376,14 +376,25 @@ class PushHandler:
         """
         qmsg
         """
-        rep = self.http.post(
-            url=f'https://qmsg.zendee.cn/group/{self.cfg.get("qmsg", "key")}',
-            headers={"Content-Type": "application/x-www-form-urlencoded"},
-            data={
-                "msg": get_push_title(status_id) + "\n" + push_message
-            }
-        ).json()
-        log.info(f"推送结果：{rep['reason']}")
+        channels = [c.strip() for c in self.cfg.get("qmsg","channel").split(',')]
+        if "chat" in channels:
+            rep = self.http.post(
+                url=f'https://qmsg.zendee.cn/send/{self.cfg.get("qmsg", "key")}',
+                headers={"Content-Type": "application/x-www-form-urlencoded"},
+                data={
+                    "msg": get_push_title(status_id) + "\n" + push_message
+                    }
+                ).json()
+            log.info(f"chat推送结果：{rep['reason']}")
+        if "group" in channels:
+            rep = self.http.post(
+                url=f'https://qmsg.zendee.cn/group/{self.cfg.get("qmsg", "key")}',
+                headers={"Content-Type": "application/x-www-form-urlencoded"},
+                data={
+                    "msg": get_push_title(status_id) + "\n" + push_message
+                }
+            ).json()
+            log.info(f"group推送结果：{rep['reason']}")
 
     def discord(self, status_id, push_message):
         import pytz

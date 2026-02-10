@@ -97,8 +97,10 @@ webhook_url=
 
 # qmsg酱(qq消息推送)
 # https://qmsg.zendee.cn/user 获取key
+# channel 填写chat(私聊)/group(群聊)
 [qmsg]
 key=你的qmsg酱key
+channel=chat
 
 # Discord Channel Webhook
 [discord]
