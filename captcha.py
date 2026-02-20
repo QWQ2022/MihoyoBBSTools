@@ -66,7 +66,7 @@ def captcha(gt: str, challenge: str):
                 if rep2.get("status") == 2:
                     log.info("等待识别结果...")
                     time.sleep(interval)  # 等待一段时间后再次发送请求
-                else:
+                elif rep2.get("status") == 1:
                     log.info("识别成功！")
                     log.debug(f"API Response1: {rep}")
                     log.debug(f"API Response2: {rep2}")
@@ -75,6 +75,9 @@ def captcha(gt: str, challenge: str):
                         "validate": rep2["data"]["validate"],
                         "challenge": challenge  # 使用传入的 challenge
                     }
+                else:
+                    log.error(rep2)
+                return None
     
             except Exception as e:
                 log.error(f"请求发生错误: {e}")
